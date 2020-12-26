@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using task_5.Models;
+using task_5.Services;
 
 namespace task_5
 {
@@ -55,7 +56,11 @@ namespace task_5
                 options.Password.RequiredUniqueChars = 1;
             });
 
-        
+            services.AddSignalR(hubOptions => {
+                hubOptions.ClientTimeoutInterval = TimeSpan.FromMinutes(5);
+            });
+
+            services.AddSingleton<GameService>();
             services.AddControllersWithViews();
         }
 
@@ -82,6 +87,8 @@ namespace task_5
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<GameHub>("/game");
+                endpoints.MapHub<LobbyHub>("/lobby");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
