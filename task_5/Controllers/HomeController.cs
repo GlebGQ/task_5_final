@@ -63,7 +63,13 @@ namespace task_5.Controllers
         public IActionResult SaveTags([FromBody] List<string> tags)
         {
             appContext.AddRange(tags.Select(t => new Tag { Name = t.Trim() }));
-            appContext.SaveChanges();
+            try
+            {
+                appContext.SaveChanges();
+            }catch(Exception e)
+            {
+                Console.WriteLine(e);
+            }
             return Ok();
         }
 

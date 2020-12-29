@@ -4,9 +4,9 @@
 // Write your JavaScript code.
 
 var x = new Image();
-x.src = '../content/images/TicTacToeX.png';
+x.src = '/content/images/TicTacToeX.png';
 var o = new Image();
-o.src = '../content/images/TicTacToeO.png';
+o.src = '/content/images/TicTacToeO.png';
 
 $("#findAnotherGame").hide();
 $("#game").hide();

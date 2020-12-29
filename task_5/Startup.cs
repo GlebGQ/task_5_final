@@ -63,7 +63,7 @@ namespace task_5
             services.AddSignalR(hubOptions =>
             {
                 hubOptions.ClientTimeoutInterval = TimeSpan.FromMinutes(15);
-            });
+            }).AddAzureSignalR("Endpoint=https://task5signalr.service.signalr.net;AccessKey=xeradYgI0jk48zkeJ9OvQT6NziXMH5YWa656rIneIfY=;Version=1.0;");
 
             services.AddSingleton<GameService>();
             services.AddControllersWithViews();
@@ -92,6 +92,7 @@ namespace task_5
 
             app.UseEndpoints(endpoints =>
             {
+               
                 endpoints.MapHub<GameHub>("/game");
                 endpoints.MapHub<LobbyHub>("/lobby");
                 endpoints.MapControllerRoute(
