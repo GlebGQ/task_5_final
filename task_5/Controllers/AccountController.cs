@@ -36,7 +36,7 @@ namespace task_5.Controllers
                 {
                     // установка куки
                     await signInManager.SignInAsync(user, false);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Lobby", "Home");
                 }
                 else
                 {
