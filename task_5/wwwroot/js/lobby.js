@@ -29,7 +29,7 @@
           filterTagify.loading(true).dropdown.hide.call(filterTagify); // show the loader animation
 
         $.when(
-            $.get("Home/GetTags", function (data, statusText) {
+            $.get(getTagsUrl, function (data, statusText) {
                 let newWhitelist = data;
                 filterTagify.settings.whitelist.push(...newWhitelist, ...filterTagify.value)
 
@@ -48,7 +48,7 @@
         gameTagify.loading(true).dropdown.hide.call(gameTagify); // show the loader animation
 
         $.when(
-            $.get("Home/GetTags", function (data, statusText) {
+            $.get(getTagsUrl, function (data, statusText) {
                 let newWhitelist = data;
                 gameTagify.settings.whitelist.push(...newWhitelist, ...gameTagify.value)
 
@@ -85,7 +85,7 @@
 
         $.ajax({
             type: 'POST',
-            url: 'Home/SaveTags',
+            url: postTagsUrl,
             contentType: 'application/json',
             data: JSON.stringify(tags)
         });

@@ -63,6 +63,7 @@ namespace task_5
             {
                 if (!gameService.IsPlayerInGame(Context.User.Identity.Name))
                 {
+                    await Clients.Caller.SendAsync("RedirectToLobby");
                     gameService.DeletePlayerWithoutGame(Context.User.Identity.Name);
                 }
                 else { 
