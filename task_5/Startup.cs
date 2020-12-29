@@ -28,6 +28,10 @@ namespace task_5
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<Models.AppContext>(options => {
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            });
+
             services.AddDbContext<AppUserContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -56,8 +60,9 @@ namespace task_5
                 options.Password.RequiredUniqueChars = 1;
             });
 
-            services.AddSignalR(hubOptions => {
-                hubOptions.ClientTimeoutInterval = TimeSpan.FromMinutes(5);
+            services.AddSignalR(hubOptions =>
+            {
+                hubOptions.ClientTimeoutInterval = TimeSpan.FromMinutes(15);
             });
 
             services.AddSingleton<GameService>();
@@ -91,7 +96,10 @@ namespace task_5
                 endpoints.MapHub<LobbyHub>("/lobby");
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Lobby}");
+                endpoints.MapControllerRoute(
+                    name: "gameRoute",
+                    pattern: "{controller=Home}/{action=Game}/{gameId}");
             });
         }
     }

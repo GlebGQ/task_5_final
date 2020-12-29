@@ -9,28 +9,62 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using task_5.Models;
+using task_5.Services;
 
 namespace task_5.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger, IHubContext<GameHub> hubContext)
+        private GameService gameService;
+        private Models.AppContext appContext;
+        public HomeController(ILogger<HomeController> logger,GameService gameService, Models.AppContext appContext)
         {
             _logger = logger;
+            this.gameService = gameService;
+            this.appContext = appContext;
         }
 
         [Authorize]
-        public IActionResult Index()
+        public IActionResult Game()
+        {
+            var player = gameService.GetPlayer(User.Identity.Name);
+            var game = gameService.GetGame(Request.RouteValues["gameId"].ToString());
+
+            if(player == null || game == null)
+            {
+                return RedirectToAction("Lobby");
+            }
+
+            if(game.Player1?.Name != player.Name && game.Player2?.Name != player.Name)
+            {
+                return RedirectToAction("Lobby");
+            }
+            else
+            {
+                return View();
+            }
+        }
+
+        [Authorize]
+        public IActionResult Lobby()
         {
             return View();
         }
 
-        [Authorize]
-        public IActionResult Games()
+        [HttpGet]
+        public JsonResult GetTags()
         {
-            return View();
+            List<string> tags = appContext.Tags.Select(t => t.Name).ToList();
+            return Json(tags);
+        }
+
+        [HttpPost]
+        public IActionResult SaveTags([FromBody] List<string> tags)
+        {
+            appContext.AddRange(tags.Select(t => new Tag { Name = t.Trim() }));
+            appContext.SaveChanges();
+            return Ok();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

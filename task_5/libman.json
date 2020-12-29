@@ -8,6 +8,16 @@
       "files": [
         "dist/browser/signalr.min.js"
       ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "tagify@3.22.0",
+      "destination": "wwwroot/tagify/",
+      "files": [
+        "tagify.min.js",
+        "tagify.min.css",
+        "jQuery.tagify.min.js"
+      ]
     }
   ]
 }

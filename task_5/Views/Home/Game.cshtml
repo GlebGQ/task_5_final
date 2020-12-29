@@ -1,0 +1,35 @@
+﻿<h1><span>Tic Tac Toe</span></h1>
+<span id="gameInformation"></span>
+<div>
+    <div id="waitingForOpponent">We're searching for an opponent, please wait!</div>
+    <div id="game">
+
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="resultModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Result</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="resultInfo"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="modalCloseButton">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var lobbyurl = "@Url.Action("Lobby", "Home")";
+    var userName = "@User.Identity.Name";
+</script>
+@section Scripts
+{
+    
+    <script src="~/js/site.js" asp-append-version="true"></script>
+}

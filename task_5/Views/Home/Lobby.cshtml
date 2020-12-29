@@ -1,0 +1,36 @@
+﻿
+<input type="button" class="btn btn-primary mb-5 mt-5" id="openCreateGameModal" value="Create game" />
+<input name="filterTags" class="mb-3" placeholder="write some tags">
+<div class="modal" tabindex="-1" role="dialog" id="createGameModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create game</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input id="gameTags" name="gameTags" placeholder="write some tags">
+                <input id="gameName" name="gameName" class="form-control mt-3" placeholder="Game name"/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="createGameButton">Create game</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="gameList">
+
+</div>
+<script>
+
+    var userName = "@User.Identity.Name";
+    var gameUrl = "@Url.Action("Game", "Home")";
+</script>
+@section Scripts
+{
+    <script src="~/js/tagify/jQuery.tagify.min.js"></script>
+    <script src="~/js/tagify/tagify.min.js"></script>
+    <script src="~/js/lobby.js" asp-append-version="true"></script>
+}

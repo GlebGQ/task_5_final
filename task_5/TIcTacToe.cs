@@ -8,6 +8,10 @@ namespace task_5
 {
     public class TicTacToe
     {
+        public List<string> Tags { get; set; }
+
+        public string GameName { get; set; }
+
         public Guid GameId { get; set; }
 
         public bool IsTaken { get; set; }

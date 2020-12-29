@@ -8,37 +8,18 @@ x.src = '../content/images/TicTacToeX.png';
 var o = new Image();
 o.src = '../content/images/TicTacToeO.png';
 
-$("#findOpponent").hide();
 $("#findAnotherGame").hide();
-$("#waitingForOpponent").hide();
 $("#game").hide();
 
 const hubConnection = new signalR.HubConnectionBuilder()
     .withUrl("/game")
     .build();
 
-hubConnection.start();
-
-hubConnection.on("registerComplete", function (playerName) {
-    $("#register").hide();
-    $("#findOpponent").show();
-});
-
-$("#registerName").click(function () {
-    hubConnection.invoke("RegisterPlayer")
-});
-
-$("#findGame").click(function () {
-    hubConnection.invoke("FindOpponent");
-
-    $("#register").hide();
-    $("#findOpponent").hide();
-
-    $("#waitingFotOpponent").show();
-})
-
-hubConnection.on("NoOpponents", function () {
-    $("#gameInformation").html("<strong>Looking for an opponent!</strong>");
+hubConnection.start().then(() => {
+    setTimeout(x => {
+        hubConnection.invoke("RegisterPlayer")
+        hubConnection.invoke("ConnectOpponents");
+    }, 1);
 });
 
 hubConnection.on("FoundOpponent", function (message) {
@@ -56,6 +37,10 @@ $("#game").on("click", ".box", function (event) {
     hubConnection.invoke("Play", id);
 });
 
+$("#modalCloseButton").on('click', function () {
+    window.location.replace(lobbyurl);
+})
+
 hubConnection.on("AddMarkerPlacement", function (info) {
     if (info.opponentName !== userName) {
         $("#" + info.markerPosition).addClass("mark2");
@@ -71,23 +56,21 @@ hubConnection.on("AddMarkerPlacement", function (info) {
 });
 
 hubConnection.on("GameOver", function (message) {
-    $("#gameInformation").html('<strong>Game is over and We have a Winner!! The winner is: ' + message + '</strong>');
-    $("#findAnotherGame").show();
+    $("#resultInfo").html("The winner is " + message);
+    $("#resultModal").modal('show');
 })
 
+hubConnection.on("Draw", function (message) {
+    $("#resultInfo").html("It's a draw!");
+    $("#resultModal").modal('show');
+})
+
+hubConnection.on("RedirectToLobby", function () {
+    $("#resultInfo").html("You are disconnected from the game.");
+    $("#resultModal").modal('show');
+});
+
 hubConnection.on("OpponentDisconnected", function (message) {
-    $("#gameInformation").html("<strong>Game over! " + message + " left and you won on walk over</strong>");
-    $("#findAnotherGame").show();
-    $("#game").hide();
+    $("#resultInfo").html("<strong>Game over! " + message + " left and you won on walk over</strong>");
+    $("#resultModal").modal('show');
 });
-
-$("#findAnotherGame").click(function () {
-    hubConnection.invoke("FindOpponent");
-
-    $("#game").empty();
-    $("#game").hide();
-    $("#findAnotherGame").hide();
-
-    $("#waitingForOpponent").show();
-});
-

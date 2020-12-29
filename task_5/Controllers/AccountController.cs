@@ -71,7 +71,7 @@ namespace task_5.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Lobby", "Home");
                     }
                 }
                 else
@@ -88,7 +88,7 @@ namespace task_5.Controllers
         {
             // удаляем аутентификационные куки
             await signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Lobby", "Home");
         }
 
     }
