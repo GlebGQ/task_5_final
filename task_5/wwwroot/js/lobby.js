@@ -156,7 +156,15 @@
             "<div class=\"card-body\">" +
             "<h5 class=\"card-title\">" + game.creatorName + " is waiting for an opponent.</h5>" +
             "<button type=\"button\" class=\"btn btn-primary\" id=\"" + game.gameId + "\" >Join</button>" +
+            "<div id=\"tags" + game.gameId + "\"> </div>" +
             "</div></div>");
+        for (let j = 0; j < game.tags.length; ++j) {
+            if (j != game.tags.length - 1) {
+                $("#tags" + game.gameId).append("<span class=\"tag\"> #" + game.tags[j] + ",</span>");
+            } else {
+                $("#tags" + game.gameId).append("<span class=\"tag\"> #" + game.tags[j] + ".</span>");
+            }
+        }
     })
 
 });

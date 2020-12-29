@@ -74,6 +74,8 @@ namespace task_5
             {
                 await Clients.Caller.SendAsync("redirectToWaitingScreen", createdGame.GameId.ToString());
                 await Clients.Others.SendAsync("newGameCreated", new GamePreview { 
+                    Tags = createdGame.Tags,
+                    GameName = gameName,
                     GameId = createdGame.ToString(),
                     CreatorName = Context.User.Identity.Name
                 });;
